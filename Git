@@ -1,0 +1,88 @@
+#初始化
+git init
+
+#放入暂存
+git add {filename}
+
+#从暂存提交到库
+git commit -m "{description}"
+
+#查询现在的状态
+git status
+
+#查看文件修改了那些地方（有暂存比较暂存中的，没有比较库中的）
+git diff {filename}
+
+#查看日志
+git log
+
+#退回到上一个版本
+git reset --hard HEAD^
+
+#退回都指定版本
+git reset --hard {commit_id}
+
+#命令记录（通过查看{commit_id},可以用来退回到未来的版本）
+git reflog
+
+#将某个文件退回到暂存或者库，即放弃修改（有暂退暂，无暂退库）
+git checkout -- {filename}
+
+#清除暂存区中某个文件
+git reset HEAD {filename}
+
+#删除文件
+git rm {filename}
+
+#关联github
+git remote add origin git@github.com:jiangye333/manual.git
+
+#克隆github
+git clone git@github.com:jiangye333/manual.git
+
+#上传到github
+git push -u origin master （第一次上传要加-u参数，以后上传不用）
+
+#创建分支并切换
+git checkout -b {name}
+
+#创建分支
+git branch {name}
+
+#切换分支
+git checkout {name}
+
+#查询当前分支
+git branch
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
