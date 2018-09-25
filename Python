@@ -1,0 +1,9 @@
+ord('a') ==> 97
+
+chr(97) ==> 'a'
+
+unichr(97) ==> u'a'
+
+'a'.decode('utf-8') ==> u'a'
+
+u'a'.encode('utf-8') ==> 'a'

@@ -1,0 +1,44 @@
+##组合命令
+#查找一个变量在哪个文件下的哪一行
+find . -type f -name "*.py" | xargs egrep -n "{val_name}"
+
+#查看目录
+ls -F | grep /
+
+#比较两个目录下文件的不同（目录结构不同）
+(cd /root/a; find . | sort > /tmp file); (cd /root/b; find . | sort | diff /tmp file -)
+
+
+##配置文件
+#vim4个空格替换Tab
+全局文件：/etc/vim/vimrc        当前用户文件：~/.vimrc
+set ts = 4
+set expandtab
+set autoindent
+
+
+##单个命令
+mkdir -p	#循环建立目录
+
+mkdir -rf filename      #循环强制删除，可以删除该目录下以'-'短横线开头的文件
+
+
+##vim下命令
+:s/\t/    /g 	#当前文件下四个空格替换Tab
+
+
+##rpm
+rpm -ivh filename.rpm   #解包装包
+
+rpm -e filename.rpm     #卸载已经安装的包
+
+rpm -qfi filename       #查看文件属于哪个包
+
+rpm -qpi filename.rpm   #查看该rpm包的信息
+
+
+
+
+
+
+

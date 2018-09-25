@@ -1,5 +1,7 @@
 #初始化
 git init
+git config --global user.name "{name}"
+git config --global user.email "{email}"
 
 #放入暂存
 git add {filename}
@@ -41,7 +43,10 @@ git remote add origin git@github.com:jiangye333/manual.git
 git clone git@github.com:jiangye333/manual.git
 
 #上传到github
-git push -u origin master （第一次上传要加-u参数，以后上传不用）
+git push -u origin master
+
+#从库中下拉
+git pull
 
 #创建分支并切换
 git checkout -b {name}
@@ -55,8 +60,13 @@ git checkout {name}
 #查询当前分支
 git branch
 
-#
+#保存整个工作区，以便恢复完整的工作区
+git stash
 
+#将保存的工作区还原出来
+git stash pop
+
+#相关命令：git stash list ;  git stash apply stash@{0}
 
 
 
