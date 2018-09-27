@@ -1,3 +1,4 @@
+"1.组合命令；   2.配置文件；    3.单个命令；   4.vim；  5.rpm；"
 ##组合命令
 #查找一个变量在哪个文件下的哪一行
 find . -type f -name "*.py" | xargs egrep -n "{val_name}"
@@ -16,25 +17,36 @@ set ts = 4
 set expandtab
 set autoindent
 
+#centos6网络配置:
+/etc/sysconfig/network-scripts/ifcfg-eth0
+ONBOOT=yes
+BOOTPROTO=static#不使用dhcp
+IPADDR=192.168.0.183
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1
+DNS1=114.114.115.115
+
 
 ##单个命令
 mkdir -p	#循环建立目录
-
-mkdir -rf filename      #循环强制删除，可以删除该目录下以'-'短横线开头的文件
-
+mkdir -rf {filename}    #循环强制删除，可以删除该目录下以'-'短横线开头的文件
+tail -f {filename}      #实时查看文件添加内容
+telnet baidu.com 80     #查询目标主机是否开放该端口
+w           #查看所有登录tty，防止在多人操作是关机
+wall "{message}"        #发送广播消息给所有登录的tty，告知他们要关机了或者其他事项
 
 ##vim下命令
 :%s/\t/    /g 	#当前文件下四个空格替换Tab
 
 
 ##rpm
+rpm --eval %{_bindir}    #查看SPEC文件下的内置宏
 rpm -ivh filename.rpm   #解包装包
-
+rpm -Uvh filename.rpm   #先卸载包，再安装包(用于升级)
 rpm -e filename.rpm     #卸载已经安装的包
-
 rpm -qfi filename       #查看文件属于哪个包
-
 rpm -qpi filename.rpm   #查看该rpm包的信息
+rpm -qil rpmname        #查看已安装包具体安装了哪些文件
 
 
 
