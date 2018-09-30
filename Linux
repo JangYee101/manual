@@ -1,4 +1,6 @@
-"1.组合命令；   2.配置文件；    3.单个命令；   4.vim；  5.rpm；"
+#官方网址（中文版）
+http://man.linuxde.net/
+
 ##组合命令
 #查找一个变量在哪个文件下的哪一行
 find . -type f -name "*.py" | xargs egrep -n "{val_name}"
@@ -9,11 +11,24 @@ ls -F | grep /
 #比较两个目录下文件的不同（目录结构不同）
 (cd /root/a; find . | sort > /tmp file); (cd /root/b; find . | sort | diff /tmp file -)
 
+#自动修改时间:
+#ntpd服务可以在修正时间的同时，修正cpu tick。理想的做法为，在开机的时候，使用ntpdate强制同步时间，在其他时候使用ntpd服务
+#同步时要注意的是，ntpd有一个自我保护设置: 如果本机与上源时间相差太大, ntpd不运行. 所以新设置的时间服务器一定要先ntpdate从上源取得时间初值, 然后启动ntpd服务。ntpd服务运行后, 先是每64秒与上源服务器同步一次, 根据每次同步时测得的误差值经复杂计算逐步调整自己的时间, 随着误差减小, 逐步增加同步的间隔. 每次跳动, 都会重复这个调整的过程.
+service ntpd stop#必须先关闭该服务，否则端口占用
+ntpdate asia.pool.ntp.org   
+service ntpd start
+
+#添加swap（用文件来充当swap）
+dd if=/dev/zero of=/var/{swap_filename} bs=1M count=40000       #每次创建1M，共创建40000次，一共创建4G大小的文件(data file)
+mkswap /var/{swap_filename}             #使这个文件成为swap分区（swap file）
+swapon /var/{swap_filename}             #挂载该swap分区
+/var/swap   swap    swap    defaults    0 0         #添加该行到/etc/fstab文件末尾,使开机自启
+
 
 ##配置文件
 #vim4个空格替换Tab
 全局文件：/etc/vim/vimrc        当前用户文件：~/.vimrc
-set ts = 4
+set ts=4
 set expandtab
 set autoindent
 
@@ -26,14 +41,38 @@ NETMASK=255.255.255.0
 GATEWAY=192.168.0.1
 DNS1=114.114.115.115
 
+#开机自启脚本：
+/etc/rc.d/init.d/testd      #新建文件testd，文件内容如下（三行）
+    #!/bin/bash
+    #chkconfig:235 99 99        #235表示在2、3、5级别下才运行，后两位分别代表启动/停止优先级，优先级范围是0~100，数字越大，优先级越低
+    touch /test.txt             #执行的命令
+chkconfig --add testd       #添加服务并开启（在相应的rc[0-6].d/中建立软连接，链接的文件就是testd）
+chkconfig testd on          #启动
+chkconfig testd off         #关闭
+
+#开机默认进入init级别
+runlevel                    #查看当前所在init级别
+/etc/inittab                #配置文件，写入下面这一行
+id:3:initdefault:           #3表示开机自动进入init3
+
+#ssh登录免密码:A登录B
+方法一：在B主机的~/.ssh/authorize_keys文件下写入A主机的id_rsa.pub
+方法二：在A主机上运行ssh-copy-id -i ~/.ssh/id_rsa.pub {username}@192.168.1.1        #该命令自动完成方法一的操作
+
+
 
 ##单个命令
-mkdir -p	#循环建立目录
+date -s '19961114 10:33:01' && hwclock -w   #先修改系统时间，再将系统时间写入硬件时间
+ls -lt          #按时间排序
+mkdir -p        #循环建立目录
 mkdir -rf {filename}    #循环强制删除，可以删除该目录下以'-'短横线开头的文件
 tail -f {filename}      #实时查看文件添加内容
 telnet baidu.com 80     #查询目标主机是否开放该端口
-w           #查看所有登录tty，防止在多人操作是关机
+w           	#查看所有登录tty，防止在多人操作是关机
 wall "{message}"        #发送广播消息给所有登录的tty，告知他们要关机了或者其他事项
+cat a.txt > b.txt       #将a.txt内容重定向到b.txt中
+cat a.txt >> b.txt      #将a.txt内容以追加的方式重定向到b.txt中
+
 
 ##vim下命令
 :%s/\t/    /g 	#当前文件下四个空格替换Tab
@@ -49,8 +88,18 @@ rpm -qpi filename.rpm   #查看该rpm包的信息
 rpm -qil rpmname        #查看已安装包具体安装了哪些文件
 
 
-
-
-
+#iptables
+iptables <-A/I/D/R> 规则链名 [规则号] <-i/o 网卡名> -p 协议名 <-s 源IP/源子网> --sport 源端口 <-d 目标IP/目标子网> --dport 目标端口 -j 动作
+#A:添加          I:插入          D:删除          R:替换
+#规则链名：  INPUT:处理入数据包              OUTPUT:处理出数据包
+#动作：      ACCEPT:接受                     DROP:拒绝               其他上网查资料
+iptables -L -n --line-numbers    #查看列表和标号（标号可以用于删除）
+iptables -A INPUT -s 192.168.1.0/24 -j ACCEPT   #允许该网段的流量进入
+iptables -A OUTPUT -s 192.168.2.0/24 -j DROP    #禁止流量流向该网段
+iptables -I OUTPUT {line_number} -s 192.168.2.0/24 -j ACCEPT    #添加规则到指定位置
+iptables -R OUTPUT {line_number} -s 192.168.3.0/24 -j ACCEPT    #修改指定位置的规则
+iptables -D INPUT 3#删除INPUT链中标号为3的规则
+iptables -F     #删除所有规则
+#标号小的优先级高，当拒绝为2，接受为3时，结果是拒绝         当拒绝为3，接受为2时，结果是接受
 
 
