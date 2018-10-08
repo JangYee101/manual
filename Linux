@@ -28,9 +28,20 @@ swapon /var/{swap_filename}             #挂载该swap分区
 ##配置文件
 #vim4个空格替换Tab
 全局文件：/etc/vim/vimrc        当前用户文件：~/.vimrc
-set ts=4
-set expandtab
-set autoindent
+set tabstop=4               #tab占4个空格
+set expandtab               #用4个空格代替tab
+set softtabstop=4           #在设置expandtab时，输入backspace删除4个空格
+set autoindent              #自动缩进
+set ignorecase              #查找时忽略大小写
+set smartcase               #当输入含有大写时强制区分大小写
+set shiftwidth=4            #一般情况下:tabstop=softtabstop=shifwidth
+nnoremap w ww                #在normal模式下按下w相当于按下ww(不会递归，递归使用nmap,这样做会陷入死循环)
+map <F4> :call MyFunc()     #使用<F4>添加文件头信息
+function MyFunc()
+    call append(0,"#JiangYe")
+    call append(2,"#2018-10-1")
+endf
+
 
 #centos6网络配置:
 /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -76,6 +87,19 @@ cat a.txt >> b.txt      #将a.txt内容以追加的方式重定向到b.txt中
 
 ##vim下命令
 :%s/\t/    /g 	#当前文件下四个空格替换Tab
+:help key-notation      #查看键位名称
+:tabnew {tab_name}      #新建tab，在normal模式下使用gt/gT来切换tab
+:tabfirst/tablast       #切换到第一/最后一个tab
+:tabclose               #关闭tab
+Ctrl+w    h/j/k/l       #多窗口下使用该命令选择窗口
+:[vertical] resize {number}         #在vsp或者sp打开新窗口后，通过该命令调节窗口大小
+.               #normal下，一个点，重复前一步操作
+Ctrl+v          #矩形状操作,r:选中的内容替换（数量一致），c:修改（数量可以不一致），I:行首添加，A:行尾添加
+#宏操作:
+q a         #normal下录制寄存器a，进入宏的录制模式
+{一系列操作}
+在normal下按下q，退出宏的录制模式
+{number}@a  #执行number次宏录制下的操作
 
 
 ##rpm
