@@ -83,6 +83,7 @@ w           	#查看所有登录tty，防止在多人操作是关机
 wall "{message}"        #发送广播消息给所有登录的tty，告知他们要关机了或者其他事项
 cat a.txt > b.txt       #将a.txt内容重定向到b.txt中
 cat a.txt >> b.txt      #将a.txt内容以追加的方式重定向到b.txt中
+zip -q -r test.zip /root/test   #将/root/test目录压缩成test.zip，使用unzip test.zip可以解压
 
 
 ##vim下命令
@@ -100,6 +101,7 @@ q a         #normal下录制寄存器a，进入宏的录制模式
 {一系列操作}
 在normal下按下q，退出宏的录制模式
 {number}@a  #执行number次宏录制下的操作
+ctrl + s/q      #锁屏/解锁
 
 
 ##rpm
