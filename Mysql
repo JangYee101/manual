@@ -1,0 +1,23 @@
+#登录mysql选择数据库
+mysql -uroot -pjiangye {database_name}
+
+
+#查询每天有多少条数据
+SELECT
+    `datetime`, (UNIX_TIMESTAMP(`datetime`) - UNIX_TIMESTAMP('2017-10-11 00:00:00')) DIV 86400 AS `time_point`, count(*)
+FROM
+    `tb_webDetected`
+WHERE
+    `datetime` BETWEEN '2017-10-15 00:00:00' AND '2018-10-15 16:39:46'  AND event_type='sensitiveWord'
+GROUP BY
+    `time_point`
+ORDER BY
+    `time_point`;
+    #结果
+    -----------------------------------------------
+    |   datetime            time_point  count(*)  |  
+    |                                             |  
+    |   2018-1-1 00:00:00   1           32        |  
+    |                                             |
+    |   2018-1-2 00:00:00   2           53        |  
+    |---------------------------------------------
