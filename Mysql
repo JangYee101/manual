@@ -21,3 +21,33 @@ ORDER BY
     |                                             |
     |   2018-1-2 00:00:00   2           53        |  
     |---------------------------------------------
+
+#查看mysql初始密码
+grep "password" /var/log/mysqld.log
+#修改密码限制，set global {Variable_name}=0;
+SHOW VARIABLES LIKE 'validate_password%';
+
+#查看一列有哪些种类
+select distinct {column} from {table};
+
+#sum的简单用法
+select id div 10 as mytype,sum(whole_risk) from tb_risk_zone group by mytype limit 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
