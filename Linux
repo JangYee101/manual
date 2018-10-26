@@ -25,6 +25,9 @@ mkswap /var/{swap_filename}             #使这个文件成为swap分区（swap 
 swapon /var/{swap_filename}             #挂载该swap分区
 /var/swap   swap    swap    defaults    0 0         #添加该行到/etc/fstab文件末尾,使开机自启
 
+#使用ps和kill来杀死进程
+ps aux | grep {name} | grep -v grep |awk '{print $2}'| xargs kill       #将{name}换成搜索的内容
+
 
 ##配置文件
 #vim4个空格替换Tab
@@ -71,6 +74,11 @@ id:3:initdefault:           #3表示开机自动进入init3
 方法一：在B主机的~/.ssh/authorize_keys文件下写入A主机的id_rsa.pub
 方法二：在A主机上运行ssh-copy-id -i ~/.ssh/id_rsa.pub {username}@192.168.1.1        #该命令自动完成方法一的操作
 
+##添加环境变量
+单个用户文件：~/.bash_profile       所有用户：/etc/profile
+加上下面一句
+export PATH=$PATH:/root/JY          #注意，JY/文件下的程序可以运行，但是JY/jy/下的程序不能运行
+
 
 
 ##单个命令
@@ -78,6 +86,9 @@ date -s '19961114 10:33:01' && hwclock -w   #先修改系统时间，再将系�
 ls -lt          #按时间排序
 mkdir -p        #循环建立目录
 mkdir -rf {filename}    #循环强制删除，可以删除该目录下以'-'短横线开头的文件
+grep "a.py"             #能匹配a.py,aapy,abpy,acpy...........
+grep "a\.py"            #只能匹配a.py                       
+grep a\.py              #能匹配a.py,aapy,abpy,acpy...........       #所以加引号才能使用正则
 tail -f {filename}      #实时查看文件添加内容
 telnet baidu.com 80     #查询目标主机是否开放该端口
 w           	#查看所有登录tty，防止在多人操作是关机
@@ -143,7 +154,7 @@ rrdtool update {rrd_name} {time}:{value}
 rrdtool fetch -r 1  my1.rrd AVERAGE     #-r表频率
 #rrdtool fetch eth0.rrd AVERAGE -r 1200 --end $((($(date +%s)/1200)*1200))      使用-r的正确用法
 
-rrdtool graph my.png -s 1539765790 -e 1539765920 -t "title" -v "y_name" -w 100 -h 100  DEF:{name}=my.rrd:myval:AVERAGE:step=2  LINE1:{name}#ff0000:"show_line_name"
+rrdtool graph my.png -s 1539765790 -e 1539765920 -t "title" -v "y_name" -w 100 -h 100  DEF:{name}=my.rrd:myval:AVERAGE:step=2  LINE1/AREA:{name}#ff0000:"show_line_name"
 
 rrdtool info {rrd_name}
 
@@ -161,7 +172,6 @@ AVERAGE ：则结果为 (4+2+1+3)/4=2.5
 MAX ：结果为4个数中的最大值 4
 MIN ：结果为4个数中的最小值1
 LAST ：结果为4个数中的最后一个 3
-
 
 
 
