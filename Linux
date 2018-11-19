@@ -74,6 +74,8 @@ id:3:initdefault:           #3表示开机自动进入init3
 方法一：在B主机的~/.ssh/authorize_keys文件下写入A主机的id_rsa.pub
 方法二：在A主机上运行ssh-copy-id -i ~/.ssh/id_rsa.pub {username}@192.168.1.1        #该命令自动完成方法一的操作
 
+
+
 ##添加环境变量
 单个用户文件：~/.bash_profile       所有用户：/etc/profile
 加上下面一句
@@ -93,13 +95,20 @@ tail -f {filename}      #实时查看文件添加内容
 telnet baidu.com 80     #查询目标主机是否开放该端口
 w           	#查看所有登录tty，防止在多人操作是关机
 wall "{message}"        #发送广播消息给所有登录的tty，告知他们要关机了或者其他事项
+wget -O name {url}      #将下载的文件命名为name
 cat a.txt > b.txt       #将a.txt内容重定向到b.txt中
 cat a.txt >> b.txt      #将a.txt内容以追加的方式重定向到b.txt中
+scp filename root@192.168.1.100:re_filename     #linux之间传输文件
+sed -i '1,100d' a.txt   #将a.txt中的前一百行删除
 zip -q -r test.zip /root/test   #将/root/test目录压缩成test.zip，使用unzip test.zip可以解压
 
 
 ##vim下命令
+:!ls            #在vim下执行shell命令
 :%s/\t/    /g 	#当前文件下四个空格替换Tab
+:%s/{name}//gn          #显示查找关键字的个数 
+:1,10g/{name}/d         #删除1~10行中有{name}关键字的行
+:1,10d                  #删除1~10所有
 :help key-notation      #查看键位名称
 :tabnew {tab_name}      #新建tab，在normal模式下使用gt/gT来切换tab
 :tabfirst/tablast       #切换到第一/最后一个tab
@@ -138,10 +147,12 @@ iptables -I OUTPUT {line_number} -s 192.168.2.0/24 -j ACCEPT    #添加规则到
 iptables -R OUTPUT {line_number} -s 192.168.3.0/24 -j ACCEPT    #修改指定位置的规则
 iptables -D INPUT 3#删除INPUT链中标号为3的规则
 iptables -F     #删除所有规则
+iptables –A INPUT –i lo –p all –j DROP      #ping 127.0.0.1失败
+iptables –A OUTPUT –o lo –p all –j DROP
 #标号小的优先级高，当拒绝为2，接受为3时，结果是拒绝         当拒绝为3，接受为2时，结果是接受
 
 ##tcpdump
-tcpdump {host/net 1.1.1.1/1.1.1.0}/{src/dst 1.1.1.1}  tcp/udp port 80 and not 81 -i eth0 -Z root -w filename
+tcpdump  {tcp/udp port 80 and not 81 -i eth0} and -Z root {host/net 1.1.1.1/1.1.1.0}/{src/dst 1.1.1.1} -w filename
 
 
 ##rrdtool
@@ -175,6 +186,12 @@ LAST ：结果为4个数中的最后一个 3
 
 
 
+##查看修改文件最大引用数
+ulimit -a | grep open       #查看
+ulimit -n 2048              #修改，重启失效
+lsof -p {pid} | grep {file_name} | wc -l        #查看某个进程对某个文件的引用数
+vim /etc/security/limits.conf       #配置文件下修改最大引用数，加上下面一行
+    * - nofile 2048                 #*号表示所有用户生效，可以换成用户名来指定某个用户生效          
 
 
 
