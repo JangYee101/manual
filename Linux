@@ -28,6 +28,11 @@ swapon /var/{swap_filename}             #挂载该swap分区
 #使用ps和kill来杀死进程
 ps aux | grep {name} | grep -v grep |awk '{print $2}'| xargs kill       #将{name}换成搜索的内容
 
+#awk
+ll | awk -F '.' '{print $NF}'           #打印最后一个
+ll | awk -F '.' '{print $NF-1}'         #打印倒数第二个
+ll | awk -F '.' '{print $1"."$2}'       #打印第一个和第二个，使用.号连接
+
 
 ##配置文件
 #vim4个空格替换Tab
@@ -101,6 +106,8 @@ cat a.txt >> b.txt      #将a.txt内容以追加的方式重定向到b.txt中
 scp filename root@192.168.1.100:re_filename     #linux之间传输文件
 sed -i '1,100d' a.txt   #将a.txt中的前一百行删除
 zip -q -r test.zip /root/test   #将/root/test目录压缩成test.zip，使用unzip test.zip可以解压
+iotop -o -d 5           #查看系统ip使用情况
+ls | sort -r            #反向排序
 
 
 ##vim下命令
@@ -194,8 +201,13 @@ vim /etc/security/limits.conf       #配置文件下修改最大引用数，加�
     * - nofile 2048                 #*号表示所有用户生效，可以换成用户名来指定某个用户生效          
 
 
+##yum
+#yum下载rpm包，不安装
+yum install yum-plugin-downloadonly         #安装yum插件：--downloadonly
+yum install --downloadonly --downloaddir=/tmp mysql     #将mysql和其依赖的rpm包全部下载到/tmp/目录下
 
-
+#yum安装本地rpm包
+yum localinstall mysql
 
 
 

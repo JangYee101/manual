@@ -39,7 +39,8 @@ set global max_connections=1000                 #修改最大，也可修改配�
 show global status like 'Thread%';              #当前
 
 
-
+#创建索引，可以大大增加查询速度，要好好使用
+CREATE INDEX cve_index on cves (cve);
 
 
 
