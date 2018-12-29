@@ -108,9 +108,11 @@ sed -i '1,100d' a.txt   #将a.txt中的前一百行删除
 zip -q -r test.zip /root/test   #将/root/test目录压缩成test.zip，使用unzip test.zip可以解压
 iotop -o -d 5           #查看系统ip使用情况
 ls | sort -r            #反向排序
+echo "nihao jiangye" | tr 'a-z' 'A-Z'       #将a-z替换成A-Z，最后输出NIHAO JIANGYE
 
 
 ##vim下命令
+%               #括号跳转
 :!ls            #在vim下执行shell命令
 :%s/\t/    /g 	#当前文件下四个空格替换Tab
 :%s/{name}//gn          #显示查找关键字的个数 
@@ -210,4 +212,5 @@ yum install --downloadonly --downloaddir=/tmp mysql     #将mysql和其依赖的
 yum localinstall mysql
 
 
-
+##ssh免秘登录
+ssh-copy-id  root@192.168.201.183       #实际上ssh-copy-id 命令就是将当前主机id_rsa.pub中的内容，追加到目标主机上的~/.ssh/authorized_keys文件上，如果该文件不存在，则创建

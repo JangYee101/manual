@@ -29,6 +29,7 @@ SHOW VARIABLES LIKE 'validate_password%';
 
 #查看一列有哪些种类
 select distinct {column} from {table};
+show columns from tablename;
 
 #sum的简单用法
 select id div 10 as mytype,sum(whole_risk) from tb_risk_zone group by mytype limit 5;
@@ -43,9 +44,13 @@ show global status like 'Thread%';              #当前
 CREATE INDEX cve_index on cves (cve);
 
 
+#查看历史命令
+cat ~/.mysql_history
 
 
-
+#删除表中所有数据
+truncate tablename
+#truncate table命令将快速删除数据表中的所有记录，但保留数据表结构。这种快速删除与delete from 数据表的删除全部数据表记录不一样，delete命令删除的数据将存储在系统回滚段中，需要的时候，数据可以回滚恢复(在commit之前)，而truncate命令删除的数据是不可以恢复的，TRUNCATE之后的自增字段从头开始计数了，而DELETE的仍保留原来的最大数值
 
 
 
