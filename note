@@ -27,3 +27,11 @@ MD5/SHA：不使用密钥，1）很难出现不同源文件加密结果相同，
 DES：对称加密，使用密钥加密
 RSA/DSA/ECC：非对称加密，群发用私钥加密，大家用公钥解密，私发用公钥加密，主人用私钥解密
 
+
+#source filename, sh filename, ./filename区别
+1.新建一个test.sh脚本，内容为:A=1；
+2.修改其可执行权限：chmod +x test.sh；
+3.运行sh test.sh后，echo $A，显示为空，因为A=1并未传回给当前shell；
+4.运行./test.sh后，也是一样的效果；
+5.运行source test.sh 或者 . test.sh，然后echo $A，则会显示1，说明A=1的变量在当前shell中；
+

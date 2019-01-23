@@ -123,6 +123,7 @@ echo "nihao jiangye" | tr 'a-z' 'A-Z'       #将a-z替换成A-Z，最后输出NI
 :tabfirst/tablast       #切换到第一/最后一个tab
 :tabclose               #关闭tab
 Ctrl+w    h/j/k/l       #多窗口下使用该命令选择窗口
+Ctrl+a/x		#数字自动加一减一，多用于宏操作
 :[vertical] resize {number}         #在vsp或者sp打开新窗口后，通过该命令调节窗口大小
 .               #normal下，一个点，重复前一步操作
 Ctrl+v          #矩形状操作,r:选中的内容替换（数量一致），c:修改（数量可以不一致），I:行首添加，A:行尾添加
@@ -214,3 +215,10 @@ yum localinstall mysql
 
 ##ssh免秘登录
 ssh-copy-id  root@192.168.201.183       #实际上ssh-copy-id 命令就是将当前主机id_rsa.pub中的内容，追加到目标主机上的~/.ssh/authorized_keys文件上，如果该文件不存在，则创建
+
+
+##md5sum
+md5sum abc.txt def.txt > md5.txt	#制作md5校验文件
+md5sum -c md5.txt			#校验文件是否被更改
+
+

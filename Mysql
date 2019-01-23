@@ -54,8 +54,10 @@ truncate tablename
 
 
 
+#一行一个键值对显示
+select * from tables_name \G		#不用分号
 
 
-
-
+#在mysql中运行mysql脚本
+source /path/filename
 
