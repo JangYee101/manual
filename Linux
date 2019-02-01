@@ -133,6 +133,8 @@ q a         #normal下录制寄存器a，进入宏的录制模式
 在normal下按下q，退出宏的录制模式
 {number}@a  #执行number次宏录制下的操作
 ctrl + s/q      #锁屏/解锁
+m+a	#标记
+'+a	#跳到a标记处
 
 
 ##rpm
@@ -222,3 +224,18 @@ md5sum abc.txt def.txt > md5.txt	#制作md5校验文件
 md5sum -c md5.txt			#校验文件是否被更改
 
 
+##disown，有输入输出会出错
+#移出最近一个正在执行的后台任务
+$ disown
+# 移出所有正在执行的后台任务
+$ disown -r
+# 移出所有后台任务
+$ disown -a
+# 不移出后台任务，但是让它们不会收到SIGHUP信号
+$ disown -h
+# 根据jobId，移出指定的后台任务
+$ disown %2
+$ disown -h %2
+
+#比disown更好，可以输入输出，将其重定向了
+nohup node server.js &
