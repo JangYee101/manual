@@ -109,7 +109,7 @@ zip -q -r test.zip /root/test   #将/root/test目录压缩成test.zip，使用un
 iotop -o -d 5           #查看系统ip使用情况
 ls | sort -r            #反向排序
 echo "nihao jiangye" | tr 'a-z' 'A-Z'       #将a-z替换成A-Z，最后输出NIHAO JIANGYE
-
+nohup command > myout.file 2>&1 &           #后台运行，即使关闭终端也继续运行
 
 ##vim下命令
 %               #括号跳转
@@ -239,3 +239,4 @@ $ disown -h %2
 
 #比disown更好，可以输入输出，将其重定向了
 nohup node server.js &
+nohup command > myout.file 2>&1 &
