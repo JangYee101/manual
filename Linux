@@ -240,3 +240,7 @@ $ disown -h %2
 #比disown更好，可以输入输出，将其重定向了
 nohup node server.js &
 nohup command > myout.file 2>&1 &
+
+
+#更换国内源
+yum install -y epel-release && yum update

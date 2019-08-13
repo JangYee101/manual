@@ -1,0 +1,24 @@
+main:console.o human.o
+	g++ console.o human.o -o $@
+console.o:console.c
+	g++ -c console.c -o $@
+human.o:human.c
+	g++ -c human.c -o $@
+clear:
+	rm *.o
+
+
+#https://blog.csdn.net/msh2016/article/details/79438558
+#make clear清除文件
+
+$	宏引用，如$(CC)
+$@	代表目标文件
+$^	代表所有的依赖文件
+$<	代表第一个依赖文件
+$?	代表比目标的修改时间更晚的那些依赖文件。
+$*	代表去掉后缀的当前目标名。例如，若当前目标是pro.o，则$*表示pro
+
+
+\	将一个较长行使用反斜线（\）来分解为多行，反斜线之后不能有空格。
+@	不要显示执行的指令。
+-	表示即使该行指令出错，也不会中断执行。
