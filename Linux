@@ -20,6 +20,7 @@ ntpdate asia.pool.ntp.org
 service ntpd start
 
 #添加swap（用文件来充当swap）
+#dd if=/dev/zero of=/var/swap bs=1M count=4000 && mkswap -f /var/swap  && swapon /var/swap
 dd if=/dev/zero of=/var/{swap_filename} bs=1M count=4000       #每次创建1M，共创建4000次，一共创建4G大小的文件(data file)
 mkswap /var/{swap_filename}             #使这个文件成为swap分区（swap file）
 swapon /var/{swap_filename}             #挂载该swap分区
