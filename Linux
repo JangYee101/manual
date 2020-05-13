@@ -244,3 +244,19 @@ nohup command > myout.file 2>&1 &
 
 #更换国内源
 yum install -y epel-release && yum update
+
+#文本去重
+cat xx | sort | uniq
+
+#本地发包
+tcpprep -a client -i p.cap -o p.cap.cache
+tcpreplay -t -c p.cap.cache -i eth2 -I eth3 p.cap
+
+
+
+
+
+
+
+
+
