@@ -1,0 +1,8 @@
+
+gcc -L. -I. -o main main.c -Wl,-Bstatic -ltest -Wl,-Bdynamic -Wl,-rpath=.
+#-L. : 优先在当前路径找库文件
+#-I. : 优先在当前路径找头文件
+#-Wl : 将后面参数传递给ld链接器
+#-Wl,-Bstatic -ltest : 对于test库，静态连接
+#-Wl,-Bdynamic : 其他库动态连接
+#-Wl,-rpath=. : 程序运行时优先加载该路径下的库文件
